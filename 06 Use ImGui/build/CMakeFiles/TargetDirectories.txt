@@ -1,0 +1,4 @@
+C:/Users/Easy/Desktop/QGlearn/homework 2/06 Use ImGui/build/CMakeFiles/ImGui.dir
+C:/Users/Easy/Desktop/QGlearn/homework 2/06 Use ImGui/build/CMakeFiles/06_Use_ImGui.dir
+C:/Users/Easy/Desktop/QGlearn/homework 2/06 Use ImGui/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Easy/Desktop/QGlearn/homework 2/06 Use ImGui/build/CMakeFiles/ZERO_CHECK.dir

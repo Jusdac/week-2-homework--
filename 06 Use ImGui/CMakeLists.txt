@@ -1,17 +1,22 @@
 cmake_minimum_required(VERSION 3.14)
 
+#   ӱ  붨  
 add_compile_definitions(UNICODE _UNICODE)
 
+#    ֧   Windows 7 ϵͳ         _WIN32_WINNT   
 if(WIN7_SYSTEM_SUPPORT MATCHES ON)
     add_compile_definitions(_WIN32_WINNT=0x601)
 endif()
 
+# Ϊ MSVC     UTF-8     ѡ  
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
+#  ռ   ĿԴ ļ 
 aux_source_directory(. DIR_SRCS)
 file(GLOB HLSL_FILES HLSL/*.hlsl HLSL/*.hlsli)
 file(GLOB HEADER_FILES ./*.h)
 
+#      HLSL  ļ         ɫ      
 foreach(HLSL_FILE ${HLSL_FILES})
     get_filename_component(HLSL_FDIR ${HLSL_FILE} DIRECTORY)
     get_filename_component(HLSL_FBASENAME_WE ${HLSL_FILE} NAME_WE)
@@ -45,16 +50,23 @@ foreach(HLSL_FILE ${HLSL_FILES})
         VS_SHADER_ENABLE_DEBUG $<$<CONFIG:Debug>:true>)
 endforeach()
 
-add_executable(06_Use_ImGui WIN32 ${DIR_SRCS} ${HEADER_FILES} ${HLSL_FILES})
-target_link_libraries(06_Use_ImGui d3d11.lib dxgi.lib dxguid.lib D3DCompiler.lib winmm.lib)
+#     ImGui   
+aux_source_directory(. IMGUI_DIR_SRCS)
+add_library(ImGui STATIC ${IMGUI_DIR_SRCS})
+target_include_directories(ImGui PUBLIC .)
 
-# ImGui
-target_link_libraries(06_Use_ImGui ImGui)
+
+add_executable(06_Use_ImGui WIN32 ${DIR_SRCS} ${HEADER_FILES} ${HLSL_FILES})
+target_link_libraries(06_Use_ImGui d3d11.lib dxgi.lib dxguid.lib D3DCompiler.lib winmm.lib ImGui)
+
+#      imgui.ini  ļ      Ŀ¼
 file(COPY imgui.ini DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+#     Դ ļ     
 source_group("HLSL Files" FILES ${HLSL_FILES})
-set_target_properties(06_Use_ImGui PROPERTIES OUTPUT_NAME "06 Use ImGui")
 
+#     Ŀ      
+set_target_properties(06_Use_ImGui PROPERTIES OUTPUT_NAME "06 Use ImGui")
 set_target_properties(06_Use_ImGui PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(06_Use_ImGui PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(06_Use_ImGui PROPERTIES FOLDER "Project 01-09")

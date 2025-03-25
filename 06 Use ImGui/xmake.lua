@@ -1,14 +1,12 @@
-targetName = "06_Use_ImGui"
-target(targetName)
-    set_group("Project 01-09")
-    set_kind("binary")
-    set_targetdir(path.join(binDir,targetName))
-    add_dx_sdk_options()
-    add_deps("ImGui")
+target("ImGui")
+    set_group("ImGui")
+    set_kind("static")
+    if is_mode("debug") then
+        set_targetdir(path.join(os.projectdir(),"bin/Debug/ImGui"))
+    else 
+        set_targetdir(path.join(os.projectdir(),"bin/Release/ImGui"))
+    end
     add_headerfiles("**.h")
     add_files("**.cpp")
-    --shader
-    add_rules("hlsl_shader_complier")
-    add_headerfiles("HLSL/**.hlsl|HLSL/**.hlsli")
-    add_files("HLSL/**.hlsl|HLSL/**.hlsli")
+    add_includedirs("./",{public = true})
 target_end()
